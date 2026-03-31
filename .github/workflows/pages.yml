@@ -31,22 +31,10 @@ jobs:
         with:
           enablement: true
 
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-
-      - name: Checkout Bend2
-        uses: actions/checkout@v5
-        with:
-          repository: HigherOrderCO/Bend2
-          ref: 90633f663e90f6e6955975a36ed24e3be40bef09
-          path: vendor/bend2
-
-      - name: Build site
-        run: bash ./scripts/build-pages.sh
-        env:
-          BEND2_DIR: ${{ github.workspace }}/vendor/bend2
+      - name: Verify static site
+        run: |
+          test -f dist/index.html
+          test -d dist/assets
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4

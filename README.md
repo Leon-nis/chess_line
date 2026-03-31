@@ -4,6 +4,8 @@ Chess Line e um prototipo de batalha simultanea em Bend. Cada lado escolhe uma p
 
 Este repositorio existe para publicar o jogo sem carregar o repo inteiro do Bend2. Aqui fica so o necessario para compilar o app, versionar os assets e fazer deploy automatico no GitHub Pages.
 
+O GitHub nao compila Bend neste repo. O site publicado vem do `dist/`, que e gerado localmente e versionado junto com o resto do projeto.
+
 ## O que tem aqui
 
 - `src/chess_line/main.bend`: codigo do jogo
@@ -27,6 +29,7 @@ BEND2_DIR=/caminho/para/Bend2 bash ./scripts/build-pages.sh
 ```
 
 O site gerado vai para `dist/index.html`.
+Essa pasta `dist/` deve entrar no commit quando voce quiser publicar uma nova versao.
 
 Se quiser abrir localmente:
 
@@ -58,4 +61,13 @@ https://Leon-nis.github.io/chess_line/
 
 ## Atualizando o jogo
 
-Sempre que voce mudar `src/chess_line/main.bend` ou os arquivos em `src/chess_line/assets/`, basta commitar e dar push. O workflow recompila e publica a nova versao.
+Quando voce mudar `src/chess_line/main.bend` ou os arquivos em `src/chess_line/assets/`, o fluxo fica:
+
+```bash
+bash ./scripts/build-pages.sh
+git add src/chess_line/main.bend src/chess_line/assets dist README.md .github/workflows/pages.yml
+git commit -m "Atualiza Chess Line"
+git push
+```
+
+O workflow do GitHub Pages nao recompila o jogo. Ele so pega o conteudo pronto de `dist/` e publica.
