@@ -1,54 +1,61 @@
-# chess_line
+# Chess Line
 
-Repo standalone do app `chess_line`, pronto para publicar no GitHub Pages.
+Chess Line e um prototipo de batalha simultanea em Bend. Cada lado escolhe uma peca da reserva, confirma a jogada, e a linha inteira resolve junto: movimento, cruzamento, dano e resultado.
 
-## Estrutura
+Este repositorio existe para publicar o jogo sem carregar o repo inteiro do Bend2. Aqui fica so o necessario para compilar o app, versionar os assets e fazer deploy automatico no GitHub Pages.
 
-- `src/chess_line/main.bend`: app Bend
-- `src/chess_line/assets/`: imagens das peças
-- `scripts/build-pages.sh`: gera `dist/index.html`
-- `.github/workflows/pages.yml`: build + deploy no GitHub Pages
+## O que tem aqui
 
-## Uso local
+- `src/chess_line/main.bend`: codigo do jogo
+- `src/chess_line/assets/`: sprites das pecas
+- `scripts/build-pages.sh`: gera o site estatico em `dist/`
+- `.github/workflows/pages.yml`: publica no GitHub Pages a cada push em `main`
 
-Se voce ja tiver um checkout do Bend2:
+## Como jogar
 
-```bash
-BEND2_DIR=/caminho/para/Bend2 ./scripts/build-pages.sh
-```
+- White: `A` pawn, `S` bishop, `D` knight, `F` rook, `G` queen, `,` pass
+- Black: `Y` pawn, `U` bishop, `I` knight, `O` rook, `P` queen, `.` pass
+- `Enter`: confirma o turno
+- `R`: reinicia a partida
 
-Sem um checkout local, o script baixa o Bend2 automaticamente no commit fixado.
+## Build local
 
-O output vai para `dist/`.
-
-## Subir para o GitHub
-
-Crie um repo vazio no GitHub, depois rode na raiz deste diretorio:
+Se voce ja tiver um checkout do Bend2 na maquina:
 
 ```bash
-git init
-git add .
-git commit -m "Initial standalone chess_line site"
-git branch -M main
-git remote add origin git@github.com:SEU_USUARIO/chess-line.git
-git push -u origin main
+BEND2_DIR=/caminho/para/Bend2 bash ./scripts/build-pages.sh
 ```
 
-## Ativar Pages
+O site gerado vai para `dist/index.html`.
 
-Depois do primeiro push:
+Se quiser abrir localmente:
 
-1. Abra o repo no GitHub.
-2. Entre em `Settings > Pages`.
-3. Em `Build and deployment`, escolha `GitHub Actions`.
-4. Espere o workflow `Deploy Pages` terminar.
+```bash
+cd dist
+python3 -m http.server 8080
+```
+
+Depois acesse:
+
+```text
+http://localhost:8080
+```
+
+## Publicacao
+
+Depois do primeiro push, o fluxo do GitHub Pages fica simples:
+
+1. abrir o repositorio no GitHub
+2. entrar em `Settings > Pages`
+3. selecionar `GitHub Actions` em `Build and deployment`
+4. deixar o workflow `Deploy Pages` cuidar do resto
 
 URL esperada:
 
 ```text
-https://SEU_USUARIO.github.io/chess-line/
+https://Leon-nis.github.io/chess_line/
 ```
 
-## Atualizar o jogo
+## Atualizando o jogo
 
-Sempre que voce mudar `src/chess_line/main.bend` ou `src/chess_line/assets/`, basta dar push na branch `main`. O workflow recompila e publica de novo.
+Sempre que voce mudar `src/chess_line/main.bend` ou os arquivos em `src/chess_line/assets/`, basta commitar e dar push. O workflow recompila e publica a nova versao.
