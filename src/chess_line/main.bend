@@ -1120,28 +1120,24 @@ def knight_special_white_second(idx: U32, defend_slots: List(Maybe(Piece)), dmg:
     case none{}:
       knight_special_white(idx, defend_slots, dmg, acc, dist + 1)
     case some{piece{_, second_kind, _, _, _}}:
-      knight_special_white_pair(idx, defend_slots, dmg, acc, dist, first_kind, second_kind, same_piece_kind(first_kind, second_kind))
+      knight_special_white_pair(idx, defend_slots, dmg, acc, dist, first_kind, second_kind, get_slot(defend_slots, idx + dist + dist))
 
-def knight_special_white_pair(idx: U32, defend_slots: List(Maybe(Piece)), dmg: U32, acc: List(U32), dist: U32, first_kind: PieceKind, second_kind: PieceKind, same: U32) -> KnightSpecialResult:
-  match same:
-    case 0:
-      knight_special_white(idx, defend_slots, dmg, acc, dist + 1)
-    case _:
-      knight_special_white_royal(idx, defend_slots, dmg, acc, dist, get_slot(defend_slots, idx + dist + dist))
-
-def knight_special_white_royal(idx: U32, defend_slots: List(Maybe(Piece)), dmg: U32, acc: List(U32), dist: U32, royal: Maybe(Piece)) -> KnightSpecialResult:
-  match royal:
+def knight_special_white_pair(idx: U32, defend_slots: List(Maybe(Piece)), dmg: U32, acc: List(U32), dist: U32, first_kind: PieceKind, second_kind: PieceKind, third: Maybe(Piece)) -> KnightSpecialResult:
+  match third:
     case none{}:
       knight_special_white(idx, defend_slots, dmg, acc, dist + 1)
-    case some{piece{_, kind, _, _, _}}:
-      knight_special_white_apply(idx, defend_slots, dmg, acc, dist, royal_piece(kind))
+    case some{piece{_, third_kind, _, _, _}}:
+      knight_special_white_royal(idx, defend_slots, dmg, acc, dist, first_kind, second_kind, third_kind, knight_special_pattern(first_kind, second_kind, third_kind))
 
-def knight_special_white_apply(idx: U32, defend_slots: List(Maybe(Piece)), dmg: U32, acc: List(U32), dist: U32, royal: U32) -> KnightSpecialResult:
-  match royal:
+def knight_special_white_royal(idx: U32, defend_slots: List(Maybe(Piece)), dmg: U32, acc: List(U32), dist: U32, first_kind: PieceKind, second_kind: PieceKind, third_kind: PieceKind, valid: U32) -> KnightSpecialResult:
+  match valid:
     case 0:
       knight_special_white(idx, defend_slots, dmg, acc, dist + 1)
     case _:
-      knight_special_result{add_damage(add_damage(add_damage(acc, idx, dmg), idx + dist, dmg), idx + dist + dist, dmg), 1}
+      knight_special_white_apply(idx, defend_slots, dmg, acc, dist, first_kind, second_kind, third_kind)
+
+def knight_special_white_apply(idx: U32, defend_slots: List(Maybe(Piece)), dmg: U32, acc: List(U32), dist: U32, first_kind: PieceKind, second_kind: PieceKind, third_kind: PieceKind) -> KnightSpecialResult:
+  knight_special_result{add_damage(add_damage(add_damage(acc, idx, dmg), idx + dist, dmg), idx + dist + dist, dmg), 1}
 
 def knight_special_black(idx: U32, defend_slots: List(Maybe(Piece)), dmg: U32, acc: List(U32), dist: U32) -> KnightSpecialResult:
   knight_special_black_stop(idx, defend_slots, dmg, acc, dist, idx < dist + dist)
@@ -1165,34 +1161,54 @@ def knight_special_black_second(idx: U32, defend_slots: List(Maybe(Piece)), dmg:
     case none{}:
       knight_special_black(idx, defend_slots, dmg, acc, dist + 1)
     case some{piece{_, second_kind, _, _, _}}:
-      knight_special_black_pair(idx, defend_slots, dmg, acc, dist, first_kind, second_kind, same_piece_kind(first_kind, second_kind))
+      knight_special_black_pair(idx, defend_slots, dmg, acc, dist, first_kind, second_kind, get_slot(defend_slots, idx - dist - dist))
 
-def knight_special_black_pair(idx: U32, defend_slots: List(Maybe(Piece)), dmg: U32, acc: List(U32), dist: U32, first_kind: PieceKind, second_kind: PieceKind, same: U32) -> KnightSpecialResult:
-  match same:
-    case 0:
-      knight_special_black(idx, defend_slots, dmg, acc, dist + 1)
-    case _:
-      knight_special_black_royal(idx, defend_slots, dmg, acc, dist, get_slot(defend_slots, idx - dist - dist))
-
-def knight_special_black_royal(idx: U32, defend_slots: List(Maybe(Piece)), dmg: U32, acc: List(U32), dist: U32, royal: Maybe(Piece)) -> KnightSpecialResult:
-  match royal:
+def knight_special_black_pair(idx: U32, defend_slots: List(Maybe(Piece)), dmg: U32, acc: List(U32), dist: U32, first_kind: PieceKind, second_kind: PieceKind, third: Maybe(Piece)) -> KnightSpecialResult:
+  match third:
     case none{}:
       knight_special_black(idx, defend_slots, dmg, acc, dist + 1)
-    case some{piece{_, kind, _, _, _}}:
-      knight_special_black_apply(idx, defend_slots, dmg, acc, dist, royal_piece(kind))
+    case some{piece{_, third_kind, _, _, _}}:
+      knight_special_black_royal(idx, defend_slots, dmg, acc, dist, first_kind, second_kind, third_kind, knight_special_pattern(first_kind, second_kind, third_kind))
 
-def knight_special_black_apply(idx: U32, defend_slots: List(Maybe(Piece)), dmg: U32, acc: List(U32), dist: U32, royal: U32) -> KnightSpecialResult:
-  match royal:
+def knight_special_black_royal(idx: U32, defend_slots: List(Maybe(Piece)), dmg: U32, acc: List(U32), dist: U32, first_kind: PieceKind, second_kind: PieceKind, third_kind: PieceKind, valid: U32) -> KnightSpecialResult:
+  match valid:
     case 0:
       knight_special_black(idx, defend_slots, dmg, acc, dist + 1)
     case _:
-      knight_special_result{add_damage(add_damage(add_damage(acc, idx, dmg), idx - dist, dmg), idx - dist - dist, dmg), 1}
+      knight_special_black_apply(idx, defend_slots, dmg, acc, dist, first_kind, second_kind, third_kind)
+
+def knight_special_black_apply(idx: U32, defend_slots: List(Maybe(Piece)), dmg: U32, acc: List(U32), dist: U32, first_kind: PieceKind, second_kind: PieceKind, third_kind: PieceKind) -> KnightSpecialResult:
+  knight_special_result{add_damage(add_damage(add_damage(acc, idx, dmg), idx - dist, dmg), idx - dist - dist, dmg), 1}
+
+def knight_special_pattern(first_kind: PieceKind, second_kind: PieceKind, third_kind: PieceKind) -> U32:
+  knight_special_pattern_front(first_kind, second_kind, third_kind, queen_piece(first_kind))
+
+def knight_special_pattern_front(first_kind: PieceKind, second_kind: PieceKind, third_kind: PieceKind, front_queen: U32) -> U32:
+  match front_queen:
+    case 0:
+      knight_special_pattern_mid(first_kind, second_kind, third_kind, queen_piece(second_kind))
+    case _:
+      same_piece_kind(second_kind, third_kind)
+
+def knight_special_pattern_mid(first_kind: PieceKind, second_kind: PieceKind, third_kind: PieceKind, mid_queen: U32) -> U32:
+  match mid_queen:
+    case 0:
+      same_piece_kind(first_kind, second_kind) & royal_piece(third_kind)
+    case _:
+      same_piece_kind(first_kind, third_kind)
 
 def royal_piece(kind: PieceKind) -> U32:
   match kind:
     case queen{}:
       1
     case king{}:
+      1
+    case _:
+      0
+
+def queen_piece(kind: PieceKind) -> U32:
+  match kind:
+    case queen{}:
       1
     case _:
       0
@@ -2103,7 +2119,7 @@ def render_special_rules() -> HTML(Event):
   <div class="special-rules">
     {render_special_rule("pawn", piece_src(white{}, pawn{}), "advanced summon", "A/Y summon on rank 1/8. Z/M try rank 2/7, else fall back.")}
     {render_special_rule("bishop", piece_src(white{}, bishop{}), "chain strike", "On clash, hits equal enemy pieces linked forward from the first target.")}
-    {render_special_rule("knight", piece_src(white{}, knight{}), "royal relay", "If two equal foes are spaced evenly ahead and end on king/queen, all three take knight damage.")}
+    {render_special_rule("knight", piece_src(white{}, knight{}), "royal relay", "Hits three evenly spaced foes: queen may sit in any slot, while king still works as the last target.")}
   </div>
 
 def render_special_rule(name: String, icon: String, title: String, note: String) -> HTML(Event):

@@ -5097,10 +5097,18 @@ export function $chess_line$main$knight_special_white_second(idx, defend_slots$1
               _v20 = second_kind$7;
               var _v21;
               var _v22;
-              _v22 = first_kind$5;
+              _v22 = defend_slots$1;
               var _v23;
-              _v23 = second_kind$7;
-              _v21 = $chess_line$main$same_piece_kind(_v22, _v23);
+              var _v24;
+              var _v25;
+              _v25 = idx;
+              var _v26;
+              _v26 = dist$4;
+              _v24 = (((_v25) + (_v26)) >>> 0);
+              var _v27;
+              _v27 = dist$4;
+              _v23 = (((_v24) + (_v27)) >>> 0);
+              _v21 = $chess_line$main$get_slot(_v22, _v23);
               _r0 = $chess_line$main$knight_special_white_pair(_v14, _v15, _v16, _v17, _v18, _v19, _v20, _v21);
               break;
             }
@@ -5126,58 +5134,7 @@ export const chess_line$main$knight_special_white_second = () => ((a0) => ((a1) 
 
 export function $chess_line$main$knight_special_white_pair(idx, defend_slots$1, dmg$2, acc$3, dist$4, first_kind$5, second_kind$6, x$7) {
   var _r0;
-  if (((x$7) >>> 0) === 0) {
-    var _v1;
-    _v1 = idx;
-    var _v2;
-    _v2 = defend_slots$1;
-    var _v3;
-    _v3 = dmg$2;
-    var _v4;
-    _v4 = acc$3;
-    var _v5;
-    var _v6;
-    _v6 = dist$4;
-    var _v7;
-    _v7 = 1;
-    _v5 = (((_v6) + (_v7)) >>> 0);
-    _r0 = $chess_line$main$knight_special_white(_v1, _v2, _v3, _v4, _v5);
-  } else {
-    var _$7 = x$7;
-    var _v8;
-    _v8 = idx;
-    var _v9;
-    _v9 = defend_slots$1;
-    var _v10;
-    _v10 = dmg$2;
-    var _v11;
-    _v11 = acc$3;
-    var _v12;
-    _v12 = dist$4;
-    var _v13;
-    var _v14;
-    _v14 = defend_slots$1;
-    var _v15;
-    var _v16;
-    var _v17;
-    _v17 = idx;
-    var _v18;
-    _v18 = dist$4;
-    _v16 = (((_v17) + (_v18)) >>> 0);
-    var _v19;
-    _v19 = dist$4;
-    _v15 = (((_v16) + (_v19)) >>> 0);
-    _v13 = $chess_line$main$get_slot(_v14, _v15);
-    _r0 = $chess_line$main$knight_special_white_royal(_v8, _v9, _v10, _v11, _v12, _v13);
-  }
-  return _r0;
-}
-
-export const chess_line$main$knight_special_white_pair = () => ((a0) => ((a1) => ((a2) => ((a3) => ((a4) => ((a5) => ((a6) => ((a7) => ($chess_line$main$knight_special_white_pair(a0, a1, a2, a3, a4, a5, a6, a7))))))))));
-
-export function $chess_line$main$knight_special_white_royal(idx, defend_slots$1, dmg$2, acc$3, dist$4, x$5) {
-  var _r0;
-  switch (x$5.$) {
+  switch (x$7.$) {
     case "none": {
       var _v1;
       _v1 = idx;
@@ -5197,9 +5154,9 @@ export function $chess_line$main$knight_special_white_royal(idx, defend_slots$1,
       break;
     }
     default: {
-      switch (x$5.$) {
+      switch (x$7.$) {
         case "some": {
-          var _m8 = x$5.val;
+          var _m8 = x$7.val;
           switch (_m8.$) {
             case "piece": {
               var _m9 = _m8.side;
@@ -5207,11 +5164,11 @@ export function $chess_line$main$knight_special_white_royal(idx, defend_slots$1,
               var _m11 = _m8.hp;
               var _m12 = _m8.sleepy;
               var _m13 = _m8.flash;
-              var _$5 = _m9;
-              var kind$6 = _m10;
-              var _$7 = _m11;
-              var _$8 = _m12;
-              var _$9 = _m13;
+              var _$7 = _m9;
+              var third_kind$8 = _m10;
+              var _$9 = _m11;
+              var _$10 = _m12;
+              var _$11 = _m13;
               var _v14;
               _v14 = idx;
               var _v15;
@@ -5223,10 +5180,20 @@ export function $chess_line$main$knight_special_white_royal(idx, defend_slots$1,
               var _v18;
               _v18 = dist$4;
               var _v19;
+              _v19 = first_kind$5;
               var _v20;
-              _v20 = kind$6;
-              _v19 = $chess_line$main$royal_piece(_v20);
-              _r0 = $chess_line$main$knight_special_white_apply(_v14, _v15, _v16, _v17, _v18, _v19);
+              _v20 = second_kind$6;
+              var _v21;
+              _v21 = third_kind$8;
+              var _v22;
+              var _v23;
+              _v23 = first_kind$5;
+              var _v24;
+              _v24 = second_kind$6;
+              var _v25;
+              _v25 = third_kind$8;
+              _v22 = $chess_line$main$knight_special_pattern(_v23, _v24, _v25);
+              _r0 = $chess_line$main$knight_special_white_royal(_v14, _v15, _v16, _v17, _v18, _v19, _v20, _v21, _v22);
               break;
             }
             default: {
@@ -5247,11 +5214,11 @@ export function $chess_line$main$knight_special_white_royal(idx, defend_slots$1,
   return _r0;
 }
 
-export const chess_line$main$knight_special_white_royal = () => ((a0) => ((a1) => ((a2) => ((a3) => ((a4) => ((a5) => ($chess_line$main$knight_special_white_royal(a0, a1, a2, a3, a4, a5))))))));
+export const chess_line$main$knight_special_white_pair = () => ((a0) => ((a1) => ((a2) => ((a3) => ((a4) => ((a5) => ((a6) => ((a7) => ($chess_line$main$knight_special_white_pair(a0, a1, a2, a3, a4, a5, a6, a7))))))))));
 
-export function $chess_line$main$knight_special_white_apply(idx, defend_slots$1, dmg$2, acc$3, dist$4, x$5) {
+export function $chess_line$main$knight_special_white_royal(idx, defend_slots$1, dmg$2, acc$3, dist$4, first_kind$5, second_kind$6, third_kind$7, x$8) {
   var _r0;
-  if (((x$5) >>> 0) === 0) {
+  if (((x$8) >>> 0) === 0) {
     var _v1;
     _v1 = idx;
     var _v2;
@@ -5268,47 +5235,71 @@ export function $chess_line$main$knight_special_white_apply(idx, defend_slots$1,
     _v5 = (((_v6) + (_v7)) >>> 0);
     _r0 = $chess_line$main$knight_special_white(_v1, _v2, _v3, _v4, _v5);
   } else {
-    var _$5 = x$5;
+    var _$8 = x$8;
     var _v8;
+    _v8 = idx;
     var _v9;
+    _v9 = defend_slots$1;
     var _v10;
+    _v10 = dmg$2;
     var _v11;
     _v11 = acc$3;
     var _v12;
-    _v12 = idx;
+    _v12 = dist$4;
     var _v13;
-    _v13 = dmg$2;
-    _v10 = $chess_line$main$add_damage(_v11, _v12, _v13);
+    _v13 = first_kind$5;
     var _v14;
+    _v14 = second_kind$6;
     var _v15;
-    _v15 = idx;
-    var _v16;
-    _v16 = dist$4;
-    _v14 = (((_v15) + (_v16)) >>> 0);
-    var _v17;
-    _v17 = dmg$2;
-    _v9 = $chess_line$main$add_damage(_v10, _v14, _v17);
-    var _v18;
-    var _v19;
-    var _v20;
-    _v20 = idx;
-    var _v21;
-    _v21 = dist$4;
-    _v19 = (((_v20) + (_v21)) >>> 0);
-    var _v22;
-    _v22 = dist$4;
-    _v18 = (((_v19) + (_v22)) >>> 0);
-    var _v23;
-    _v23 = dmg$2;
-    _v8 = $chess_line$main$add_damage(_v9, _v18, _v23);
-    var _v24;
-    _v24 = 1;
-    _r0 = ({$: "knight_special_result", damages: _v8, found: _v24});
+    _v15 = third_kind$7;
+    _r0 = $chess_line$main$knight_special_white_apply(_v8, _v9, _v10, _v11, _v12, _v13, _v14, _v15);
   }
   return _r0;
 }
 
-export const chess_line$main$knight_special_white_apply = () => ((a0) => ((a1) => ((a2) => ((a3) => ((a4) => ((a5) => ($chess_line$main$knight_special_white_apply(a0, a1, a2, a3, a4, a5))))))));
+export const chess_line$main$knight_special_white_royal = () => ((a0) => ((a1) => ((a2) => ((a3) => ((a4) => ((a5) => ((a6) => ((a7) => ((a8) => ($chess_line$main$knight_special_white_royal(a0, a1, a2, a3, a4, a5, a6, a7, a8)))))))))));
+
+export function $chess_line$main$knight_special_white_apply(idx, defend_slots$1, dmg$2, acc$3, dist$4, first_kind$5, second_kind$6, third_kind$7) {
+  var _r0;
+  var _v1;
+  var _v2;
+  var _v3;
+  var _v4;
+  _v4 = acc$3;
+  var _v5;
+  _v5 = idx;
+  var _v6;
+  _v6 = dmg$2;
+  _v3 = $chess_line$main$add_damage(_v4, _v5, _v6);
+  var _v7;
+  var _v8;
+  _v8 = idx;
+  var _v9;
+  _v9 = dist$4;
+  _v7 = (((_v8) + (_v9)) >>> 0);
+  var _v10;
+  _v10 = dmg$2;
+  _v2 = $chess_line$main$add_damage(_v3, _v7, _v10);
+  var _v11;
+  var _v12;
+  var _v13;
+  _v13 = idx;
+  var _v14;
+  _v14 = dist$4;
+  _v12 = (((_v13) + (_v14)) >>> 0);
+  var _v15;
+  _v15 = dist$4;
+  _v11 = (((_v12) + (_v15)) >>> 0);
+  var _v16;
+  _v16 = dmg$2;
+  _v1 = $chess_line$main$add_damage(_v2, _v11, _v16);
+  var _v17;
+  _v17 = 1;
+  _r0 = ({$: "knight_special_result", damages: _v1, found: _v17});
+  return _r0;
+}
+
+export const chess_line$main$knight_special_white_apply = () => ((a0) => ((a1) => ((a2) => ((a3) => ((a4) => ((a5) => ((a6) => ((a7) => ($chess_line$main$knight_special_white_apply(a0, a1, a2, a3, a4, a5, a6, a7))))))))));
 
 export function $chess_line$main$knight_special_black(idx, defend_slots$1, dmg$2, acc$3, dist$4) {
   var _r0;
@@ -5506,10 +5497,18 @@ export function $chess_line$main$knight_special_black_second(idx, defend_slots$1
               _v20 = second_kind$7;
               var _v21;
               var _v22;
-              _v22 = first_kind$5;
+              _v22 = defend_slots$1;
               var _v23;
-              _v23 = second_kind$7;
-              _v21 = $chess_line$main$same_piece_kind(_v22, _v23);
+              var _v24;
+              var _v25;
+              _v25 = idx;
+              var _v26;
+              _v26 = dist$4;
+              _v24 = (((_v25) - (_v26)) >>> 0);
+              var _v27;
+              _v27 = dist$4;
+              _v23 = (((_v24) - (_v27)) >>> 0);
+              _v21 = $chess_line$main$get_slot(_v22, _v23);
               _r0 = $chess_line$main$knight_special_black_pair(_v14, _v15, _v16, _v17, _v18, _v19, _v20, _v21);
               break;
             }
@@ -5535,58 +5534,7 @@ export const chess_line$main$knight_special_black_second = () => ((a0) => ((a1) 
 
 export function $chess_line$main$knight_special_black_pair(idx, defend_slots$1, dmg$2, acc$3, dist$4, first_kind$5, second_kind$6, x$7) {
   var _r0;
-  if (((x$7) >>> 0) === 0) {
-    var _v1;
-    _v1 = idx;
-    var _v2;
-    _v2 = defend_slots$1;
-    var _v3;
-    _v3 = dmg$2;
-    var _v4;
-    _v4 = acc$3;
-    var _v5;
-    var _v6;
-    _v6 = dist$4;
-    var _v7;
-    _v7 = 1;
-    _v5 = (((_v6) + (_v7)) >>> 0);
-    _r0 = $chess_line$main$knight_special_black(_v1, _v2, _v3, _v4, _v5);
-  } else {
-    var _$7 = x$7;
-    var _v8;
-    _v8 = idx;
-    var _v9;
-    _v9 = defend_slots$1;
-    var _v10;
-    _v10 = dmg$2;
-    var _v11;
-    _v11 = acc$3;
-    var _v12;
-    _v12 = dist$4;
-    var _v13;
-    var _v14;
-    _v14 = defend_slots$1;
-    var _v15;
-    var _v16;
-    var _v17;
-    _v17 = idx;
-    var _v18;
-    _v18 = dist$4;
-    _v16 = (((_v17) - (_v18)) >>> 0);
-    var _v19;
-    _v19 = dist$4;
-    _v15 = (((_v16) - (_v19)) >>> 0);
-    _v13 = $chess_line$main$get_slot(_v14, _v15);
-    _r0 = $chess_line$main$knight_special_black_royal(_v8, _v9, _v10, _v11, _v12, _v13);
-  }
-  return _r0;
-}
-
-export const chess_line$main$knight_special_black_pair = () => ((a0) => ((a1) => ((a2) => ((a3) => ((a4) => ((a5) => ((a6) => ((a7) => ($chess_line$main$knight_special_black_pair(a0, a1, a2, a3, a4, a5, a6, a7))))))))));
-
-export function $chess_line$main$knight_special_black_royal(idx, defend_slots$1, dmg$2, acc$3, dist$4, x$5) {
-  var _r0;
-  switch (x$5.$) {
+  switch (x$7.$) {
     case "none": {
       var _v1;
       _v1 = idx;
@@ -5606,9 +5554,9 @@ export function $chess_line$main$knight_special_black_royal(idx, defend_slots$1,
       break;
     }
     default: {
-      switch (x$5.$) {
+      switch (x$7.$) {
         case "some": {
-          var _m8 = x$5.val;
+          var _m8 = x$7.val;
           switch (_m8.$) {
             case "piece": {
               var _m9 = _m8.side;
@@ -5616,11 +5564,11 @@ export function $chess_line$main$knight_special_black_royal(idx, defend_slots$1,
               var _m11 = _m8.hp;
               var _m12 = _m8.sleepy;
               var _m13 = _m8.flash;
-              var _$5 = _m9;
-              var kind$6 = _m10;
-              var _$7 = _m11;
-              var _$8 = _m12;
-              var _$9 = _m13;
+              var _$7 = _m9;
+              var third_kind$8 = _m10;
+              var _$9 = _m11;
+              var _$10 = _m12;
+              var _$11 = _m13;
               var _v14;
               _v14 = idx;
               var _v15;
@@ -5632,10 +5580,20 @@ export function $chess_line$main$knight_special_black_royal(idx, defend_slots$1,
               var _v18;
               _v18 = dist$4;
               var _v19;
+              _v19 = first_kind$5;
               var _v20;
-              _v20 = kind$6;
-              _v19 = $chess_line$main$royal_piece(_v20);
-              _r0 = $chess_line$main$knight_special_black_apply(_v14, _v15, _v16, _v17, _v18, _v19);
+              _v20 = second_kind$6;
+              var _v21;
+              _v21 = third_kind$8;
+              var _v22;
+              var _v23;
+              _v23 = first_kind$5;
+              var _v24;
+              _v24 = second_kind$6;
+              var _v25;
+              _v25 = third_kind$8;
+              _v22 = $chess_line$main$knight_special_pattern(_v23, _v24, _v25);
+              _r0 = $chess_line$main$knight_special_black_royal(_v14, _v15, _v16, _v17, _v18, _v19, _v20, _v21, _v22);
               break;
             }
             default: {
@@ -5656,11 +5614,11 @@ export function $chess_line$main$knight_special_black_royal(idx, defend_slots$1,
   return _r0;
 }
 
-export const chess_line$main$knight_special_black_royal = () => ((a0) => ((a1) => ((a2) => ((a3) => ((a4) => ((a5) => ($chess_line$main$knight_special_black_royal(a0, a1, a2, a3, a4, a5))))))));
+export const chess_line$main$knight_special_black_pair = () => ((a0) => ((a1) => ((a2) => ((a3) => ((a4) => ((a5) => ((a6) => ((a7) => ($chess_line$main$knight_special_black_pair(a0, a1, a2, a3, a4, a5, a6, a7))))))))));
 
-export function $chess_line$main$knight_special_black_apply(idx, defend_slots$1, dmg$2, acc$3, dist$4, x$5) {
+export function $chess_line$main$knight_special_black_royal(idx, defend_slots$1, dmg$2, acc$3, dist$4, first_kind$5, second_kind$6, third_kind$7, x$8) {
   var _r0;
-  if (((x$5) >>> 0) === 0) {
+  if (((x$8) >>> 0) === 0) {
     var _v1;
     _v1 = idx;
     var _v2;
@@ -5677,47 +5635,143 @@ export function $chess_line$main$knight_special_black_apply(idx, defend_slots$1,
     _v5 = (((_v6) + (_v7)) >>> 0);
     _r0 = $chess_line$main$knight_special_black(_v1, _v2, _v3, _v4, _v5);
   } else {
-    var _$5 = x$5;
+    var _$8 = x$8;
     var _v8;
+    _v8 = idx;
     var _v9;
+    _v9 = defend_slots$1;
     var _v10;
+    _v10 = dmg$2;
     var _v11;
     _v11 = acc$3;
     var _v12;
-    _v12 = idx;
+    _v12 = dist$4;
     var _v13;
-    _v13 = dmg$2;
-    _v10 = $chess_line$main$add_damage(_v11, _v12, _v13);
+    _v13 = first_kind$5;
     var _v14;
+    _v14 = second_kind$6;
     var _v15;
-    _v15 = idx;
-    var _v16;
-    _v16 = dist$4;
-    _v14 = (((_v15) - (_v16)) >>> 0);
-    var _v17;
-    _v17 = dmg$2;
-    _v9 = $chess_line$main$add_damage(_v10, _v14, _v17);
-    var _v18;
-    var _v19;
-    var _v20;
-    _v20 = idx;
-    var _v21;
-    _v21 = dist$4;
-    _v19 = (((_v20) - (_v21)) >>> 0);
-    var _v22;
-    _v22 = dist$4;
-    _v18 = (((_v19) - (_v22)) >>> 0);
-    var _v23;
-    _v23 = dmg$2;
-    _v8 = $chess_line$main$add_damage(_v9, _v18, _v23);
-    var _v24;
-    _v24 = 1;
-    _r0 = ({$: "knight_special_result", damages: _v8, found: _v24});
+    _v15 = third_kind$7;
+    _r0 = $chess_line$main$knight_special_black_apply(_v8, _v9, _v10, _v11, _v12, _v13, _v14, _v15);
   }
   return _r0;
 }
 
-export const chess_line$main$knight_special_black_apply = () => ((a0) => ((a1) => ((a2) => ((a3) => ((a4) => ((a5) => ($chess_line$main$knight_special_black_apply(a0, a1, a2, a3, a4, a5))))))));
+export const chess_line$main$knight_special_black_royal = () => ((a0) => ((a1) => ((a2) => ((a3) => ((a4) => ((a5) => ((a6) => ((a7) => ((a8) => ($chess_line$main$knight_special_black_royal(a0, a1, a2, a3, a4, a5, a6, a7, a8)))))))))));
+
+export function $chess_line$main$knight_special_black_apply(idx, defend_slots$1, dmg$2, acc$3, dist$4, first_kind$5, second_kind$6, third_kind$7) {
+  var _r0;
+  var _v1;
+  var _v2;
+  var _v3;
+  var _v4;
+  _v4 = acc$3;
+  var _v5;
+  _v5 = idx;
+  var _v6;
+  _v6 = dmg$2;
+  _v3 = $chess_line$main$add_damage(_v4, _v5, _v6);
+  var _v7;
+  var _v8;
+  _v8 = idx;
+  var _v9;
+  _v9 = dist$4;
+  _v7 = (((_v8) - (_v9)) >>> 0);
+  var _v10;
+  _v10 = dmg$2;
+  _v2 = $chess_line$main$add_damage(_v3, _v7, _v10);
+  var _v11;
+  var _v12;
+  var _v13;
+  _v13 = idx;
+  var _v14;
+  _v14 = dist$4;
+  _v12 = (((_v13) - (_v14)) >>> 0);
+  var _v15;
+  _v15 = dist$4;
+  _v11 = (((_v12) - (_v15)) >>> 0);
+  var _v16;
+  _v16 = dmg$2;
+  _v1 = $chess_line$main$add_damage(_v2, _v11, _v16);
+  var _v17;
+  _v17 = 1;
+  _r0 = ({$: "knight_special_result", damages: _v1, found: _v17});
+  return _r0;
+}
+
+export const chess_line$main$knight_special_black_apply = () => ((a0) => ((a1) => ((a2) => ((a3) => ((a4) => ((a5) => ((a6) => ((a7) => ($chess_line$main$knight_special_black_apply(a0, a1, a2, a3, a4, a5, a6, a7))))))))));
+
+export function $chess_line$main$knight_special_pattern(first_kind, second_kind$1, third_kind$2) {
+  var _r0;
+  var _v1;
+  _v1 = first_kind;
+  var _v2;
+  _v2 = second_kind$1;
+  var _v3;
+  _v3 = third_kind$2;
+  var _v4;
+  var _v5;
+  _v5 = first_kind;
+  _v4 = $chess_line$main$queen_piece(_v5);
+  _r0 = $chess_line$main$knight_special_pattern_front(_v1, _v2, _v3, _v4);
+  return _r0;
+}
+
+export const chess_line$main$knight_special_pattern = () => ((a0) => ((a1) => ((a2) => ($chess_line$main$knight_special_pattern(a0, a1, a2)))));
+
+export function $chess_line$main$knight_special_pattern_front(first_kind, second_kind$1, third_kind$2, x$3) {
+  var _r0;
+  if (((x$3) >>> 0) === 0) {
+    var _v1;
+    _v1 = first_kind;
+    var _v2;
+    _v2 = second_kind$1;
+    var _v3;
+    _v3 = third_kind$2;
+    var _v4;
+    var _v5;
+    _v5 = second_kind$1;
+    _v4 = $chess_line$main$queen_piece(_v5);
+    _r0 = $chess_line$main$knight_special_pattern_mid(_v1, _v2, _v3, _v4);
+  } else {
+    var _$3 = x$3;
+    var _v6;
+    _v6 = second_kind$1;
+    var _v7;
+    _v7 = third_kind$2;
+    _r0 = $chess_line$main$same_piece_kind(_v6, _v7);
+  }
+  return _r0;
+}
+
+export const chess_line$main$knight_special_pattern_front = () => ((a0) => ((a1) => ((a2) => ((a3) => ($chess_line$main$knight_special_pattern_front(a0, a1, a2, a3))))));
+
+export function $chess_line$main$knight_special_pattern_mid(first_kind, second_kind$1, third_kind$2, x$3) {
+  var _r0;
+  if (((x$3) >>> 0) === 0) {
+    var _v1;
+    var _v2;
+    _v2 = first_kind;
+    var _v3;
+    _v3 = second_kind$1;
+    _v1 = $chess_line$main$same_piece_kind(_v2, _v3);
+    var _v4;
+    var _v5;
+    _v5 = third_kind$2;
+    _v4 = $chess_line$main$royal_piece(_v5);
+    _r0 = (((_v1) & (_v4)) >>> 0);
+  } else {
+    var _$3 = x$3;
+    var _v6;
+    _v6 = first_kind;
+    var _v7;
+    _v7 = third_kind$2;
+    _r0 = $chess_line$main$same_piece_kind(_v6, _v7);
+  }
+  return _r0;
+}
+
+export const chess_line$main$knight_special_pattern_mid = () => ((a0) => ((a1) => ((a2) => ((a3) => ($chess_line$main$knight_special_pattern_mid(a0, a1, a2, a3))))));
 
 export function $chess_line$main$royal_piece(x) {
   var _r0;
@@ -5745,6 +5799,24 @@ export function $chess_line$main$royal_piece(x) {
 }
 
 export const chess_line$main$royal_piece = () => ((a0) => ($chess_line$main$royal_piece(a0)));
+
+export function $chess_line$main$queen_piece(x) {
+  var _r0;
+  switch (x.$) {
+    case "queen": {
+      _r0 = 1;
+      break;
+    }
+    default: {
+      var _ = x;
+      _r0 = 0;
+      break;
+    }
+  }
+  return _r0;
+}
+
+export const chess_line$main$queen_piece = () => ((a0) => ($chess_line$main$queen_piece(a0)));
 
 export function $chess_line$main$merge_damage_rows(x, x$1) {
   var _r0;
@@ -27123,87 +27195,87 @@ export function $chess_line$main$render_special_rules() {
   var _v639;
   var _v640;
   var _v641;
-  _v641 = 73;
+  _v641 = 72;
   _v640 = String.fromCharCode(((_v641) >>> 0) & 0xFFFF);
   var _v642;
   var _v643;
   var _v644;
-  _v644 = 102;
+  _v644 = 105;
   _v643 = String.fromCharCode(((_v644) >>> 0) & 0xFFFF);
   var _v645;
   var _v646;
   var _v647;
-  _v647 = 32;
+  _v647 = 116;
   _v646 = String.fromCharCode(((_v647) >>> 0) & 0xFFFF);
   var _v648;
   var _v649;
   var _v650;
-  _v650 = 116;
+  _v650 = 115;
   _v649 = String.fromCharCode(((_v650) >>> 0) & 0xFFFF);
   var _v651;
   var _v652;
   var _v653;
-  _v653 = 119;
+  _v653 = 32;
   _v652 = String.fromCharCode(((_v653) >>> 0) & 0xFFFF);
   var _v654;
   var _v655;
   var _v656;
-  _v656 = 111;
+  _v656 = 116;
   _v655 = String.fromCharCode(((_v656) >>> 0) & 0xFFFF);
   var _v657;
   var _v658;
   var _v659;
-  _v659 = 32;
+  _v659 = 104;
   _v658 = String.fromCharCode(((_v659) >>> 0) & 0xFFFF);
   var _v660;
   var _v661;
   var _v662;
-  _v662 = 101;
+  _v662 = 114;
   _v661 = String.fromCharCode(((_v662) >>> 0) & 0xFFFF);
   var _v663;
   var _v664;
   var _v665;
-  _v665 = 113;
+  _v665 = 101;
   _v664 = String.fromCharCode(((_v665) >>> 0) & 0xFFFF);
   var _v666;
   var _v667;
   var _v668;
-  _v668 = 117;
+  _v668 = 101;
   _v667 = String.fromCharCode(((_v668) >>> 0) & 0xFFFF);
   var _v669;
   var _v670;
   var _v671;
-  _v671 = 97;
+  _v671 = 32;
   _v670 = String.fromCharCode(((_v671) >>> 0) & 0xFFFF);
   var _v672;
   var _v673;
   var _v674;
-  _v674 = 108;
+  _v674 = 101;
   _v673 = String.fromCharCode(((_v674) >>> 0) & 0xFFFF);
   var _v675;
   var _v676;
   var _v677;
-  _v677 = 32;
+  _v677 = 118;
   _v676 = String.fromCharCode(((_v677) >>> 0) & 0xFFFF);
   var _v678;
   var _v679;
   var _v680;
-  _v680 = 102;
+  _v680 = 101;
   _v679 = String.fromCharCode(((_v680) >>> 0) & 0xFFFF);
   var _v681;
   var _v682;
   var _v683;
-  _v683 = 111;
+  _v683 = 110;
   _v682 = String.fromCharCode(((_v683) >>> 0) & 0xFFFF);
   var _v684;
   var _v685;
   var _v686;
-  _v686 = 101;
+  _v686 = 108;
   _v685 = String.fromCharCode(((_v686) >>> 0) & 0xFFFF);
   var _v687;
   var _v688;
   var _v689;
-  _v689 = 115;
+  _v689 = 121;
   _v688 = String.fromCharCode(((_v689) >>> 0) & 0xFFFF);
   var _v690;
   var _v691;
@@ -27213,252 +27285,252 @@ export function $chess_line$main$render_special_rules() {
   var _v693;
   var _v694;
   var _v695;
-  _v695 = 97;
+  _v695 = 115;
   _v694 = String.fromCharCode(((_v695) >>> 0) & 0xFFFF);
   var _v696;
   var _v697;
   var _v698;
-  _v698 = 114;
+  _v698 = 112;
   _v697 = String.fromCharCode(((_v698) >>> 0) & 0xFFFF);
   var _v699;
   var _v700;
   var _v701;
-  _v701 = 101;
+  _v701 = 97;
   _v700 = String.fromCharCode(((_v701) >>> 0) & 0xFFFF);
   var _v702;
   var _v703;
   var _v704;
-  _v704 = 32;
+  _v704 = 99;
   _v703 = String.fromCharCode(((_v704) >>> 0) & 0xFFFF);
   var _v705;
   var _v706;
   var _v707;
-  _v707 = 115;
+  _v707 = 101;
   _v706 = String.fromCharCode(((_v707) >>> 0) & 0xFFFF);
   var _v708;
   var _v709;
   var _v710;
-  _v710 = 112;
+  _v710 = 100;
   _v709 = String.fromCharCode(((_v710) >>> 0) & 0xFFFF);
   var _v711;
   var _v712;
   var _v713;
-  _v713 = 97;
+  _v713 = 32;
   _v712 = String.fromCharCode(((_v713) >>> 0) & 0xFFFF);
   var _v714;
   var _v715;
   var _v716;
-  _v716 = 99;
+  _v716 = 102;
   _v715 = String.fromCharCode(((_v716) >>> 0) & 0xFFFF);
   var _v717;
   var _v718;
   var _v719;
-  _v719 = 101;
+  _v719 = 111;
   _v718 = String.fromCharCode(((_v719) >>> 0) & 0xFFFF);
   var _v720;
   var _v721;
   var _v722;
-  _v722 = 100;
+  _v722 = 101;
   _v721 = String.fromCharCode(((_v722) >>> 0) & 0xFFFF);
   var _v723;
   var _v724;
   var _v725;
-  _v725 = 32;
+  _v725 = 115;
   _v724 = String.fromCharCode(((_v725) >>> 0) & 0xFFFF);
   var _v726;
   var _v727;
   var _v728;
-  _v728 = 101;
+  _v728 = 58;
   _v727 = String.fromCharCode(((_v728) >>> 0) & 0xFFFF);
   var _v729;
   var _v730;
   var _v731;
-  _v731 = 118;
+  _v731 = 32;
   _v730 = String.fromCharCode(((_v731) >>> 0) & 0xFFFF);
   var _v732;
   var _v733;
   var _v734;
-  _v734 = 101;
+  _v734 = 113;
   _v733 = String.fromCharCode(((_v734) >>> 0) & 0xFFFF);
   var _v735;
   var _v736;
   var _v737;
-  _v737 = 110;
+  _v737 = 117;
   _v736 = String.fromCharCode(((_v737) >>> 0) & 0xFFFF);
   var _v738;
   var _v739;
   var _v740;
-  _v740 = 108;
+  _v740 = 101;
   _v739 = String.fromCharCode(((_v740) >>> 0) & 0xFFFF);
   var _v741;
   var _v742;
   var _v743;
-  _v743 = 121;
+  _v743 = 101;
   _v742 = String.fromCharCode(((_v743) >>> 0) & 0xFFFF);
   var _v744;
   var _v745;
   var _v746;
-  _v746 = 32;
+  _v746 = 110;
   _v745 = String.fromCharCode(((_v746) >>> 0) & 0xFFFF);
   var _v747;
   var _v748;
   var _v749;
-  _v749 = 97;
+  _v749 = 32;
   _v748 = String.fromCharCode(((_v749) >>> 0) & 0xFFFF);
   var _v750;
   var _v751;
   var _v752;
-  _v752 = 104;
+  _v752 = 109;
   _v751 = String.fromCharCode(((_v752) >>> 0) & 0xFFFF);
   var _v753;
   var _v754;
   var _v755;
-  _v755 = 101;
+  _v755 = 97;
   _v754 = String.fromCharCode(((_v755) >>> 0) & 0xFFFF);
   var _v756;
   var _v757;
   var _v758;
-  _v758 = 97;
+  _v758 = 121;
   _v757 = String.fromCharCode(((_v758) >>> 0) & 0xFFFF);
   var _v759;
   var _v760;
   var _v761;
-  _v761 = 100;
+  _v761 = 32;
   _v760 = String.fromCharCode(((_v761) >>> 0) & 0xFFFF);
   var _v762;
   var _v763;
   var _v764;
-  _v764 = 32;
+  _v764 = 115;
   _v763 = String.fromCharCode(((_v764) >>> 0) & 0xFFFF);
   var _v765;
   var _v766;
   var _v767;
-  _v767 = 97;
+  _v767 = 105;
   _v766 = String.fromCharCode(((_v767) >>> 0) & 0xFFFF);
   var _v768;
   var _v769;
   var _v770;
-  _v770 = 110;
+  _v770 = 116;
   _v769 = String.fromCharCode(((_v770) >>> 0) & 0xFFFF);
   var _v771;
   var _v772;
   var _v773;
-  _v773 = 100;
+  _v773 = 32;
   _v772 = String.fromCharCode(((_v773) >>> 0) & 0xFFFF);
   var _v774;
   var _v775;
   var _v776;
-  _v776 = 32;
+  _v776 = 105;
   _v775 = String.fromCharCode(((_v776) >>> 0) & 0xFFFF);
   var _v777;
   var _v778;
   var _v779;
-  _v779 = 101;
+  _v779 = 110;
   _v778 = String.fromCharCode(((_v779) >>> 0) & 0xFFFF);
   var _v780;
   var _v781;
   var _v782;
-  _v782 = 110;
+  _v782 = 32;
   _v781 = String.fromCharCode(((_v782) >>> 0) & 0xFFFF);
   var _v783;
   var _v784;
   var _v785;
-  _v785 = 100;
+  _v785 = 97;
   _v784 = String.fromCharCode(((_v785) >>> 0) & 0xFFFF);
   var _v786;
   var _v787;
   var _v788;
-  _v788 = 32;
+  _v788 = 110;
   _v787 = String.fromCharCode(((_v788) >>> 0) & 0xFFFF);
   var _v789;
   var _v790;
   var _v791;
-  _v791 = 111;
+  _v791 = 121;
   _v790 = String.fromCharCode(((_v791) >>> 0) & 0xFFFF);
   var _v792;
   var _v793;
   var _v794;
-  _v794 = 110;
+  _v794 = 32;
   _v793 = String.fromCharCode(((_v794) >>> 0) & 0xFFFF);
   var _v795;
   var _v796;
   var _v797;
-  _v797 = 32;
+  _v797 = 115;
   _v796 = String.fromCharCode(((_v797) >>> 0) & 0xFFFF);
   var _v798;
   var _v799;
   var _v800;
-  _v800 = 107;
+  _v800 = 108;
   _v799 = String.fromCharCode(((_v800) >>> 0) & 0xFFFF);
   var _v801;
   var _v802;
   var _v803;
-  _v803 = 105;
+  _v803 = 111;
   _v802 = String.fromCharCode(((_v803) >>> 0) & 0xFFFF);
   var _v804;
   var _v805;
   var _v806;
-  _v806 = 110;
+  _v806 = 116;
   _v805 = String.fromCharCode(((_v806) >>> 0) & 0xFFFF);
   var _v807;
   var _v808;
   var _v809;
-  _v809 = 103;
+  _v809 = 44;
   _v808 = String.fromCharCode(((_v809) >>> 0) & 0xFFFF);
   var _v810;
   var _v811;
   var _v812;
-  _v812 = 47;
+  _v812 = 32;
   _v811 = String.fromCharCode(((_v812) >>> 0) & 0xFFFF);
   var _v813;
   var _v814;
   var _v815;
-  _v815 = 113;
+  _v815 = 119;
   _v814 = String.fromCharCode(((_v815) >>> 0) & 0xFFFF);
   var _v816;
   var _v817;
   var _v818;
-  _v818 = 117;
+  _v818 = 104;
   _v817 = String.fromCharCode(((_v818) >>> 0) & 0xFFFF);
   var _v819;
   var _v820;
   var _v821;
-  _v821 = 101;
+  _v821 = 105;
   _v820 = String.fromCharCode(((_v821) >>> 0) & 0xFFFF);
   var _v822;
   var _v823;
   var _v824;
-  _v824 = 101;
+  _v824 = 108;
   _v823 = String.fromCharCode(((_v824) >>> 0) & 0xFFFF);
   var _v825;
   var _v826;
   var _v827;
-  _v827 = 110;
+  _v827 = 101;
   _v826 = String.fromCharCode(((_v827) >>> 0) & 0xFFFF);
   var _v828;
   var _v829;
   var _v830;
-  _v830 = 44;
+  _v830 = 32;
   _v829 = String.fromCharCode(((_v830) >>> 0) & 0xFFFF);
   var _v831;
   var _v832;
   var _v833;
-  _v833 = 32;
+  _v833 = 107;
   _v832 = String.fromCharCode(((_v833) >>> 0) & 0xFFFF);
   var _v834;
   var _v835;
   var _v836;
-  _v836 = 97;
+  _v836 = 105;
   _v835 = String.fromCharCode(((_v836) >>> 0) & 0xFFFF);
   var _v837;
   var _v838;
   var _v839;
-  _v839 = 108;
+  _v839 = 110;
   _v838 = String.fromCharCode(((_v839) >>> 0) & 0xFFFF);
   var _v840;
   var _v841;
   var _v842;
-  _v842 = 108;
+  _v842 = 103;
   _v841 = String.fromCharCode(((_v842) >>> 0) & 0xFFFF);
   var _v843;
   var _v844;
@@ -27468,27 +27540,27 @@ export function $chess_line$main$render_special_rules() {
   var _v846;
   var _v847;
   var _v848;
-  _v848 = 116;
+  _v848 = 115;
   _v847 = String.fromCharCode(((_v848) >>> 0) & 0xFFFF);
   var _v849;
   var _v850;
   var _v851;
-  _v851 = 104;
+  _v851 = 116;
   _v850 = String.fromCharCode(((_v851) >>> 0) & 0xFFFF);
   var _v852;
   var _v853;
   var _v854;
-  _v854 = 114;
+  _v854 = 105;
   _v853 = String.fromCharCode(((_v854) >>> 0) & 0xFFFF);
   var _v855;
   var _v856;
   var _v857;
-  _v857 = 101;
+  _v857 = 108;
   _v856 = String.fromCharCode(((_v857) >>> 0) & 0xFFFF);
   var _v858;
   var _v859;
   var _v860;
-  _v860 = 101;
+  _v860 = 108;
   _v859 = String.fromCharCode(((_v860) >>> 0) & 0xFFFF);
   var _v861;
   var _v862;
@@ -27498,100 +27570,136 @@ export function $chess_line$main$render_special_rules() {
   var _v864;
   var _v865;
   var _v866;
-  _v866 = 116;
+  _v866 = 119;
   _v865 = String.fromCharCode(((_v866) >>> 0) & 0xFFFF);
   var _v867;
   var _v868;
   var _v869;
-  _v869 = 97;
+  _v869 = 111;
   _v868 = String.fromCharCode(((_v869) >>> 0) & 0xFFFF);
   var _v870;
   var _v871;
   var _v872;
-  _v872 = 107;
+  _v872 = 114;
   _v871 = String.fromCharCode(((_v872) >>> 0) & 0xFFFF);
   var _v873;
   var _v874;
   var _v875;
-  _v875 = 101;
+  _v875 = 107;
   _v874 = String.fromCharCode(((_v875) >>> 0) & 0xFFFF);
   var _v876;
   var _v877;
   var _v878;
-  _v878 = 32;
+  _v878 = 115;
   _v877 = String.fromCharCode(((_v878) >>> 0) & 0xFFFF);
   var _v879;
   var _v880;
   var _v881;
-  _v881 = 107;
+  _v881 = 32;
   _v880 = String.fromCharCode(((_v881) >>> 0) & 0xFFFF);
   var _v882;
   var _v883;
   var _v884;
-  _v884 = 110;
+  _v884 = 97;
   _v883 = String.fromCharCode(((_v884) >>> 0) & 0xFFFF);
   var _v885;
   var _v886;
   var _v887;
-  _v887 = 105;
+  _v887 = 115;
   _v886 = String.fromCharCode(((_v887) >>> 0) & 0xFFFF);
   var _v888;
   var _v889;
   var _v890;
-  _v890 = 103;
+  _v890 = 32;
   _v889 = String.fromCharCode(((_v890) >>> 0) & 0xFFFF);
   var _v891;
   var _v892;
   var _v893;
-  _v893 = 104;
+  _v893 = 116;
   _v892 = String.fromCharCode(((_v893) >>> 0) & 0xFFFF);
   var _v894;
   var _v895;
   var _v896;
-  _v896 = 116;
+  _v896 = 104;
   _v895 = String.fromCharCode(((_v896) >>> 0) & 0xFFFF);
   var _v897;
   var _v898;
   var _v899;
-  _v899 = 32;
+  _v899 = 101;
   _v898 = String.fromCharCode(((_v899) >>> 0) & 0xFFFF);
   var _v900;
   var _v901;
   var _v902;
-  _v902 = 100;
+  _v902 = 32;
   _v901 = String.fromCharCode(((_v902) >>> 0) & 0xFFFF);
   var _v903;
   var _v904;
   var _v905;
-  _v905 = 97;
+  _v905 = 108;
   _v904 = String.fromCharCode(((_v905) >>> 0) & 0xFFFF);
   var _v906;
   var _v907;
   var _v908;
-  _v908 = 109;
+  _v908 = 97;
   _v907 = String.fromCharCode(((_v908) >>> 0) & 0xFFFF);
   var _v909;
   var _v910;
   var _v911;
-  _v911 = 97;
+  _v911 = 115;
   _v910 = String.fromCharCode(((_v911) >>> 0) & 0xFFFF);
   var _v912;
   var _v913;
   var _v914;
-  _v914 = 103;
+  _v914 = 116;
   _v913 = String.fromCharCode(((_v914) >>> 0) & 0xFFFF);
   var _v915;
   var _v916;
   var _v917;
-  _v917 = 101;
+  _v917 = 32;
   _v916 = String.fromCharCode(((_v917) >>> 0) & 0xFFFF);
   var _v918;
   var _v919;
   var _v920;
-  _v920 = 46;
+  _v920 = 116;
   _v919 = String.fromCharCode(((_v920) >>> 0) & 0xFFFF);
   var _v921;
-  _v921 = "";
+  var _v922;
+  var _v923;
+  _v923 = 97;
+  _v922 = String.fromCharCode(((_v923) >>> 0) & 0xFFFF);
+  var _v924;
+  var _v925;
+  var _v926;
+  _v926 = 114;
+  _v925 = String.fromCharCode(((_v926) >>> 0) & 0xFFFF);
+  var _v927;
+  var _v928;
+  var _v929;
+  _v929 = 103;
+  _v928 = String.fromCharCode(((_v929) >>> 0) & 0xFFFF);
+  var _v930;
+  var _v931;
+  var _v932;
+  _v932 = 101;
+  _v931 = String.fromCharCode(((_v932) >>> 0) & 0xFFFF);
+  var _v933;
+  var _v934;
+  var _v935;
+  _v935 = 116;
+  _v934 = String.fromCharCode(((_v935) >>> 0) & 0xFFFF);
+  var _v936;
+  var _v937;
+  var _v938;
+  _v938 = 46;
+  _v937 = String.fromCharCode(((_v938) >>> 0) & 0xFFFF);
+  var _v939;
+  _v939 = "";
+  _v936 = (_v937 + _v939);
+  _v933 = (_v934 + _v936);
+  _v930 = (_v931 + _v933);
+  _v927 = (_v928 + _v930);
+  _v924 = (_v925 + _v927);
+  _v921 = (_v922 + _v924);
   _v918 = (_v919 + _v921);
   _v915 = (_v916 + _v918);
   _v912 = (_v913 + _v915);
@@ -27687,9 +27795,9 @@ export function $chess_line$main$render_special_rules() {
   _v642 = (_v643 + _v645);
   _v639 = (_v640 + _v642);
   _v582 = $chess_line$main$render_special_rule(_v583, _v602, _v605, _v639);
-  var _v922;
-  _v922 = ({$: "nil"});
-  _v581 = ({$: "cons", head: _v582, tail: _v922});
+  var _v940;
+  _v940 = ({$: "nil"});
+  _v581 = ({$: "cons", head: _v582, tail: _v940});
   _v306 = ({$: "cons", head: _v307, tail: _v581});
   _v70 = ({$: "cons", head: _v71, tail: _v306});
   _r0 = ({$: "node", tag: _v1, attrs: _v11, kids: _v70});
