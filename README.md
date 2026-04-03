@@ -15,10 +15,16 @@ O GitHub nao compila Bend neste repo. O site publicado vem do `dist/`, que e ger
 
 ## Como jogar
 
-- White: `A` pawn, `S` bishop, `D` knight, `F` rook, `G` queen, `,` pass
-- Black: `Y` pawn, `U` bishop, `I` knight, `O` rook, `P` queen, `.` pass
+- White: `A` pawn rank 1, `Z` pawn rank 2, `S` bishop, `D` knight, `F` rook, `G` queen, `,` pass
+- Black: `Y` pawn rank 8, `M` pawn rank 7, `U` bishop, `I` knight, `O` rook, `P` queen, `.` pass
 - `Enter`: confirma o turno
 - `R`: reinicia a partida
+
+Especiais atuais:
+
+- Pawn: `Z/M` tentam invocar o peao avancado em `2/7`; se a casa estiver ocupada, caem para `1/8`
+- Bishop: em confronto, propaga dano por pecas inimigas iguais conectadas na direcao do avanco
+- Knight: se houver duas pecas iguais em espacamento regular terminando em `king/queen`, acerta os tres alvos; se acabou de avancar, esse especial conta so uma vez na rodada
 
 ## Build local
 
