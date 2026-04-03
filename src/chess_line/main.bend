@@ -308,9 +308,9 @@ def on_event_tick(
     case planning{}:
       turn{number, tick_slots(white_slots), tick_slots(black_slots), white_reserve, black_reserve, white_pick, black_pick, white_input, black_input, last_white, last_black, summary, outcome, planning{}, 0, pending_black_reserve, pending_white_action, pending_black_action}
     case white_turn{}:
-      tick_white_preview(number, white_slots, black_slots, white_reserve, black_reserve, last_white, last_black, summary, outcome, stage_ticks, pending_black_reserve, pending_white_action, pending_black_action)
+      tick_white_preview(number, white_slots, black_slots, white_reserve, black_reserve, white_pick, black_pick, white_input, black_input, last_white, last_black, summary, outcome, stage_ticks, pending_black_reserve, pending_white_action, pending_black_action)
     case black_turn{}:
-      tick_black_preview(number, white_slots, black_slots, white_reserve, black_reserve, last_white, last_black, summary, outcome, stage_ticks)
+      tick_black_preview(number, white_slots, black_slots, white_reserve, black_reserve, white_pick, black_pick, white_input, black_input, last_white, last_black, summary, outcome, stage_ticks)
 
 def tick_white_preview(
   number: U32,
@@ -318,6 +318,10 @@ def tick_white_preview(
   black_slots: List(Maybe(Piece)),
   white_reserve: Reserve,
   black_reserve: Reserve,
+  white_pick: Action,
+  black_pick: Action,
+  white_input: InputState,
+  black_input: InputState,
   last_white: Action,
   last_black: Action,
   summary: String,
@@ -327,7 +331,7 @@ def tick_white_preview(
   pending_white_action: Action,
   pending_black_action: Action
 ) -> TurnState:
-  tick_white_preview_step(number, tick_slots(white_slots), tick_slots(black_slots), white_reserve, black_reserve, last_white, last_black, summary, outcome, stage_ticks, pending_black_reserve, pending_white_action, pending_black_action, stage_ticks <= tick_ms)
+  tick_white_preview_step(number, tick_slots(white_slots), tick_slots(black_slots), white_reserve, black_reserve, white_pick, black_pick, white_input, black_input, last_white, last_black, summary, outcome, stage_ticks, pending_black_reserve, pending_white_action, pending_black_action, stage_ticks <= tick_ms)
 
 def tick_white_preview_step(
   number: U32,
@@ -335,6 +339,10 @@ def tick_white_preview_step(
   black_slots: List(Maybe(Piece)),
   white_reserve: Reserve,
   black_reserve: Reserve,
+  white_pick: Action,
+  black_pick: Action,
+  white_input: InputState,
+  black_input: InputState,
   last_white: Action,
   last_black: Action,
   summary: String,
@@ -347,9 +355,9 @@ def tick_white_preview_step(
 ) -> TurnState:
   match advance:
     case 0:
-      turn{number, white_slots, black_slots, white_reserve, black_reserve, waiting{}, waiting{}, waiting_input{}, waiting_input{}, last_white, last_black, summary, outcome, white_turn{}, stage_ticks - tick_ms, pending_black_reserve, pending_white_action, pending_black_action}
+      turn{number, white_slots, black_slots, white_reserve, black_reserve, white_pick, black_pick, white_input, black_input, last_white, last_black, summary, outcome, white_turn{}, stage_ticks - tick_ms, pending_black_reserve, pending_white_action, pending_black_action}
     case _:
-      resolve_black_phase(number, white_slots, black_slots, white_reserve, pending_black_reserve, pending_white_action, pending_black_action)
+      resolve_black_phase(number, white_slots, black_slots, white_reserve, pending_black_reserve, white_pick, black_pick, white_input, black_input, pending_white_action, pending_black_action)
 
 def tick_black_preview(
   number: U32,
@@ -357,13 +365,17 @@ def tick_black_preview(
   black_slots: List(Maybe(Piece)),
   white_reserve: Reserve,
   black_reserve: Reserve,
+  white_pick: Action,
+  black_pick: Action,
+  white_input: InputState,
+  black_input: InputState,
   last_white: Action,
   last_black: Action,
   summary: String,
   outcome: Outcome,
   stage_ticks: U32
 ) -> TurnState:
-  tick_black_preview_step(number, tick_slots(white_slots), tick_slots(black_slots), white_reserve, black_reserve, last_white, last_black, summary, outcome, stage_ticks, stage_ticks <= tick_ms)
+  tick_black_preview_step(number, tick_slots(white_slots), tick_slots(black_slots), white_reserve, black_reserve, white_pick, black_pick, white_input, black_input, last_white, last_black, summary, outcome, stage_ticks, stage_ticks <= tick_ms)
 
 def tick_black_preview_step(
   number: U32,
@@ -371,6 +383,10 @@ def tick_black_preview_step(
   black_slots: List(Maybe(Piece)),
   white_reserve: Reserve,
   black_reserve: Reserve,
+  white_pick: Action,
+  black_pick: Action,
+  white_input: InputState,
+  black_input: InputState,
   last_white: Action,
   last_black: Action,
   summary: String,
@@ -380,9 +396,9 @@ def tick_black_preview_step(
 ) -> TurnState:
   match finish:
     case 0:
-      turn{number, white_slots, black_slots, white_reserve, black_reserve, waiting{}, waiting{}, waiting_input{}, waiting_input{}, last_white, last_black, summary, outcome, black_turn{}, stage_ticks - tick_ms, reserve{0, 0, 0, 0, 0}, pass{}, pass{}}
+      turn{number, white_slots, black_slots, white_reserve, black_reserve, white_pick, black_pick, white_input, black_input, last_white, last_black, summary, outcome, black_turn{}, stage_ticks - tick_ms, reserve{0, 0, 0, 0, 0}, pass{}, pass{}}
     case _:
-      turn{number, white_slots, black_slots, white_reserve, black_reserve, waiting{}, waiting{}, waiting_input{}, waiting_input{}, last_white, last_black, summary, outcome, planning{}, 0, reserve{0, 0, 0, 0, 0}, pass{}, pass{}}
+      turn{number, white_slots, black_slots, white_reserve, black_reserve, white_pick, black_pick, white_input, black_input, last_white, last_black, summary, outcome, planning{}, 0, reserve{0, 0, 0, 0, 0}, pass{}, pass{}}
 
 def on_event_confirm(
   number: U32,
@@ -531,7 +547,7 @@ def on_event_select_playing_stage(
     case planning{}:
       on_event_select_playing(event, number, white_slots, black_slots, white_reserve, black_reserve, white_pick, black_pick, white_input, black_input, last_white, last_black, summary)
     case _:
-      turn{number, white_slots, black_slots, white_reserve, black_reserve, white_pick, black_pick, white_input, black_input, last_white, last_black, summary, playing{}, stage, stage_ticks, pending_black_reserve, pending_white_action, pending_black_action}
+      update_selection_buffered(action_from_white(event), action_from_black(event), number, white_slots, black_slots, white_reserve, black_reserve, white_pick, black_pick, white_input, black_input, last_white, last_black, summary, stage, stage_ticks, pending_black_reserve, pending_white_action, pending_black_action)
 
 def on_event_select_playing(
   event: Event,
@@ -600,6 +616,48 @@ def update_selection(
     reserve{0, 0, 0, 0, 0},
     pass{},
     pass{},
+  }
+
+def update_selection_buffered(
+  white_choice: Action,
+  black_choice: Action,
+  number: U32,
+  white_slots: List(Maybe(Piece)),
+  black_slots: List(Maybe(Piece)),
+  white_reserve: Reserve,
+  black_reserve: Reserve,
+  white_pick: Action,
+  black_pick: Action,
+  white_input: InputState,
+  black_input: InputState,
+  last_white: Action,
+  last_black: Action,
+  summary: String,
+  stage: ResolveStage,
+  stage_ticks: U32,
+  pending_black_reserve: Reserve,
+  pending_white_action: Action,
+  pending_black_action: Action
+) -> TurnState:
+  turn{
+    number,
+    white_slots,
+    black_slots,
+    white_reserve,
+    black_reserve,
+    choose_action(white_pick, white_choice),
+    choose_action(black_pick, black_choice),
+    update_input_state(white_pick, white_choice, white_input),
+    update_input_state(black_pick, black_choice, black_input),
+    last_white,
+    last_black,
+    summary,
+    playing{},
+    stage,
+    stage_ticks,
+    pending_black_reserve,
+    pending_white_action,
+    pending_black_action,
   }
 
 def choose_action(current: Action, incoming: Action) -> Action:
@@ -692,6 +750,10 @@ def resolve_black_phase(
   black_slots: List(Maybe(Piece)),
   white_reserve: Reserve,
   black_reserve: Reserve,
+  white_pick: Action,
+  black_pick: Action,
+  white_input: InputState,
+  black_input: InputState,
   white_real: Action,
   black_real: Action
 ) -> TurnState:
@@ -706,10 +768,10 @@ def resolve_black_phase(
     black_next_slots,
     white_reserve,
     black_next_reserve,
-    waiting{},
-    waiting{},
-    waiting_input{},
-    waiting_input{},
+    white_pick,
+    black_pick,
+    white_input,
+    black_input,
     white_real,
     black_real,
     black_phase_summary(white_real, black_real, phase_rounds(black_phase), next_outcome),
@@ -1188,14 +1250,14 @@ def knight_special_pattern_front(first_kind: PieceKind, second_kind: PieceKind, 
     case 0:
       knight_special_pattern_mid(first_kind, second_kind, third_kind, queen_piece(second_kind))
     case _:
-      same_piece_kind(second_kind, third_kind)
+      same_piece_kind(second_kind, third_kind) | king_piece(third_kind)
 
 def knight_special_pattern_mid(first_kind: PieceKind, second_kind: PieceKind, third_kind: PieceKind, mid_queen: U32) -> U32:
   match mid_queen:
     case 0:
       same_piece_kind(first_kind, second_kind) & royal_piece(third_kind)
     case _:
-      same_piece_kind(first_kind, third_kind)
+      same_piece_kind(first_kind, third_kind) | king_piece(third_kind)
 
 def royal_piece(kind: PieceKind) -> U32:
   match kind:
@@ -1209,6 +1271,13 @@ def royal_piece(kind: PieceKind) -> U32:
 def queen_piece(kind: PieceKind) -> U32:
   match kind:
     case queen{}:
+      1
+    case _:
+      0
+
+def king_piece(kind: PieceKind) -> U32:
+  match kind:
+    case king{}:
       1
     case _:
       0
@@ -1983,6 +2052,7 @@ def render_game(state: TurnState) -> HTML(Event):
               <span class="panel-sub">Current build</span>
             </div>
             {render_special_rules()}
+            {render_global_controls()}
           </div>
           <div class="panel black-side">
             <div class="panel-head">
@@ -2076,44 +2146,44 @@ def render_control_map(side: Side) -> HTML(Event):
   match side:
     case white{}:
       <div class="control-map">
-        {render_control_piece(white{}, "A", pawn{}, "rank 1")}
-        {render_control_piece(white{}, "Z", pawn{}, "rank 2")}
-        {render_control_piece(white{}, "S", bishop{}, "arc hit")}
-        {render_control_piece(white{}, "D", knight{}, "relay strike")}
-        {render_control_piece(white{}, "F", rook{}, "deploy")}
-        {render_control_piece(white{}, "G", queen{}, "deploy")}
-        {render_control_pass(",", "skip")}
+        {render_control_piece(white{}, "A", pawn{}, "rank 1", select_white_pawn{})}
+        {render_control_piece(white{}, "Z", pawn{}, "rank 2", select_white_pawn_advanced{})}
+        {render_control_piece(white{}, "S", bishop{}, "arc hit", select_white_bishop{})}
+        {render_control_piece(white{}, "D", knight{}, "relay strike", select_white_knight{})}
+        {render_control_piece(white{}, "F", rook{}, "deploy", select_white_rook{})}
+        {render_control_piece(white{}, "G", queen{}, "deploy", select_white_queen{})}
+        {render_control_pass(",", "skip", select_white_pass{})}
       </div>
     case black{}:
       <div class="control-map">
-        {render_control_piece(black{}, "Y", pawn{}, "rank 8")}
-        {render_control_piece(black{}, "M", pawn{}, "rank 7")}
-        {render_control_piece(black{}, "U", bishop{}, "arc hit")}
-        {render_control_piece(black{}, "I", knight{}, "relay strike")}
-        {render_control_piece(black{}, "O", rook{}, "deploy")}
-        {render_control_piece(black{}, "P", queen{}, "deploy")}
-        {render_control_pass(".", "skip")}
+        {render_control_piece(black{}, "Y", pawn{}, "rank 8", select_black_pawn{})}
+        {render_control_piece(black{}, "M", pawn{}, "rank 7", select_black_pawn_advanced{})}
+        {render_control_piece(black{}, "U", bishop{}, "arc hit", select_black_bishop{})}
+        {render_control_piece(black{}, "I", knight{}, "relay strike", select_black_knight{})}
+        {render_control_piece(black{}, "O", rook{}, "deploy", select_black_rook{})}
+        {render_control_piece(black{}, "P", queen{}, "deploy", select_black_queen{})}
+        {render_control_pass(".", "skip", select_black_pass{})}
       </div>
 
-def render_control_piece(side: Side, key: String, kind: PieceKind, note: String) -> HTML(Event):
-  <div class="control-card">
+def render_control_piece(side: Side, key: String, kind: PieceKind, note: String, event: Event) -> HTML(Event):
+  <button class="control-card" on_click={event}>
     <span class="control-key">{text{key}}</span>
     <img class="control-icon" src={piece_src(side, kind)} alt={piece_alt(side, kind)} />
     <div class="control-meta">
       <span class="control-name">{text{kind_name(kind)}}</span>
       <span class="control-note">{text{note}}</span>
     </div>
-  </div>
+  </button>
 
-def render_control_pass(key: String, note: String) -> HTML(Event):
-  <div class="control-card control-pass">
+def render_control_pass(key: String, note: String, event: Event) -> HTML(Event):
+  <button class="control-card control-pass" on_click={event}>
     <span class="control-key">{text{key}}</span>
     <div class="control-pass-dot"></div>
     <div class="control-meta">
       <span class="control-name">pass</span>
       <span class="control-note">{text{note}}</span>
     </div>
-  </div>
+  </button>
 
 def render_special_rules() -> HTML(Event):
   <div class="special-rules">
@@ -2121,6 +2191,18 @@ def render_special_rules() -> HTML(Event):
     {render_special_rule("bishop", piece_src(white{}, bishop{}), "chain strike", "On clash, hits equal enemy pieces linked forward from the first target.")}
     {render_special_rule("knight", piece_src(white{}, knight{}), "royal relay", "Hits three evenly spaced foes: queen may sit in any slot, while king still works as the last target.")}
   </div>
+
+def render_global_controls() -> HTML(Event):
+  <div class="global-controls">
+    {render_global_button("Enter", "confirm turn", confirm{})}
+    {render_global_button("R", "restart", restart{})}
+  </div>
+
+def render_global_button(key: String, note: String, event: Event) -> HTML(Event):
+  <button class="global-button" on_click={event}>
+    <span class="global-key">{text{key}}</span>
+    <span class="global-note">{text{note}}</span>
+  </button>
 
 def render_special_rule(name: String, icon: String, title: String, note: String) -> HTML(Event):
   <div class="special-card">
@@ -2502,7 +2584,9 @@ css_d : String = "
   .panel{display:grid;gap:14px}.panel-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px}.panel-sub{font-size:11px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
   .reserve-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}.reserve-card{padding:10px 8px;border-radius:14px;background:rgba(255,255,255,.34);border:1px solid rgba(129,98,71,.14);display:grid;justify-items:center;gap:6px}
   .reserve-icon{width:36px;height:36px;object-fit:contain}.reserve-count{font-size:18px;font-weight:700}.reserve-name{text-transform:uppercase;font-size:10px;letter-spacing:.12em;color:var(--muted)}
-  .control-map{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.control-card{display:grid;grid-template-columns:auto auto 1fr;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.32);border:1px solid rgba(129,98,71,.12)}
+  .control-map{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.control-card{display:grid;grid-template-columns:auto auto 1fr;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.32);border:1px solid rgba(129,98,71,.12);appearance:none;width:100%;text-align:left;color:inherit;font:inherit;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease,border-color .12s ease}
+  .control-card:hover,.control-card:focus-visible{transform:translateY(-1px);box-shadow:0 8px 18px rgba(0,0,0,.08);border-color:rgba(129,98,71,.26);outline:none}
+  .control-card:active{transform:translateY(0)}
   .control-key{min-width:36px;height:36px;border-radius:10px;background:#efe5d4;border:1px solid rgba(129,98,71,.22);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
   .control-icon{width:34px;height:34px;object-fit:contain}.control-meta{display:grid;gap:2px}.control-name{text-transform:uppercase;font-size:11px;letter-spacing:.16em}.control-note{font-size:11px;color:var(--muted)}.control-pass-dot{width:18px;height:18px;border-radius:999px;background:#7d6a55}
   .special-rules{display:grid;gap:10px}.special-card{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding:12px;border-radius:14px;background:rgba(255,255,255,.34);border:1px solid rgba(129,98,71,.12)}
@@ -2511,19 +2595,14 @@ css_d : String = "
 
 css_e : String = "
   .control-center{align-content:start}.center-commands{display:grid;gap:10px}.enter-card .control-key,.restart-card .control-key{background:#efe5d4;border-color:rgba(129,98,71,.22)}
+  .global-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.global-button{display:grid;gap:4px;align-items:start;justify-items:start;padding:12px 14px;border-radius:14px;border:1px solid rgba(129,98,71,.14);background:rgba(255,255,255,.32);appearance:none;color:inherit;font:inherit;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease,border-color .12s ease}
+  .global-button:hover,.global-button:focus-visible{transform:translateY(-1px);box-shadow:0 8px 18px rgba(0,0,0,.08);border-color:rgba(129,98,71,.26);outline:none}
+  .global-button:active{transform:translateY(0)}.global-key{min-width:44px;height:36px;padding:0 12px;border-radius:10px;background:#efe5d4;border:1px solid rgba(129,98,71,.22);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}.global-note{text-transform:uppercase;font-size:11px;letter-spacing:.14em;color:var(--muted)}
   .action-pair{display:grid;grid-template-columns:1fr 1fr;gap:8px}.action-puck{padding:10px 12px;border-radius:14px;border:1px solid rgba(129,98,71,.12);display:grid;gap:4px}.action-side{font-size:11px;letter-spacing:.18em;color:var(--muted)}.action-text{text-transform:uppercase;font-size:12px}
   .hit{animation:damagePulse .42s cubic-bezier(.18,.8,.25,1) 1;box-shadow:0 0 0 1px rgba(255,245,224,.38),0 0 28px rgba(255,214,134,.34),0 10px 18px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.22)}@keyframes damagePulse{0%{transform:scale(1);opacity:1}15%{transform:scale(.92) translateY(2px);opacity:.52}35%{transform:scale(1.06) translateY(-3px);opacity:1}55%{transform:scale(.98);opacity:.7}100%{transform:scale(1);opacity:1}}
-  .bishop.hit:before{content:\"\";position:absolute;left:-18px;right:-18px;top:40px;height:3px;border-radius:999px;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,241,205,.5) 18%,rgba(255,216,137,.95) 46%,rgba(255,241,205,.5) 76%,rgba(255,255,255,0));transform:rotate(-26deg);box-shadow:0 0 16px rgba(255,214,126,.5);animation:bishopTrace .5s cubic-bezier(.18,.74,.22,1) 1;pointer-events:none}
-  .bishop.hit:after{content:\"\";position:absolute;right:-6px;top:18px;width:14px;height:14px;border-top:3px solid rgba(255,216,137,.96);border-right:3px solid rgba(255,216,137,.96);transform:rotate(19deg);filter:drop-shadow(0 0 8px rgba(255,214,126,.46));animation:bishopArrow .5s cubic-bezier(.18,.74,.22,1) 1;pointer-events:none}
-  .knight.hit:before{content:\"\";position:absolute;inset:-10px;border-radius:24px;border:2px solid rgba(170,232,255,.78);box-shadow:0 0 0 1px rgba(255,255,255,.3),0 0 22px rgba(170,232,255,.34);animation:knightRing .48s ease-out 1;pointer-events:none}
-  .knight.hit:after{content:\"\";position:absolute;inset:-4px;border-radius:20px;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.44) 0,rgba(164,230,255,.34) 24%,rgba(164,230,255,0) 56%),conic-gradient(from 0deg,rgba(255,255,255,0) 0 10%,rgba(176,238,255,.86) 10% 16%,rgba(255,255,255,0) 16% 34%,rgba(176,238,255,.74) 34% 40%,rgba(255,255,255,0) 40% 58%,rgba(176,238,255,.82) 58% 64%,rgba(255,255,255,0) 64% 82%,rgba(176,238,255,.72) 82% 88%,rgba(255,255,255,0) 88% 100%);animation:knightBurst .5s cubic-bezier(.16,.82,.24,1) 1;pointer-events:none}
   @keyframes cellImpact{0%{opacity:0;transform:scale(.86)}35%{opacity:1;transform:scale(1.02)}100%{opacity:0;transform:scale(1.1)}}
-  @keyframes bishopTrace{0%{opacity:0;transform:translateX(-18px) rotate(-26deg) scaleX(.58)}28%{opacity:1}100%{opacity:0;transform:translateX(18px) rotate(-26deg) scaleX(1.08)}}
-  @keyframes bishopArrow{0%{opacity:0;transform:translate(-10px,8px) rotate(19deg) scale(.72)}30%{opacity:1}100%{opacity:0;transform:translate(8px,-6px) rotate(19deg) scale(1.08)}}
-  @keyframes knightRing{0%{opacity:0;transform:scale(.56)}24%{opacity:1}100%{opacity:0;transform:scale(1.28)}}
-  @keyframes knightBurst{0%{opacity:0;transform:scale(.72) rotate(0deg)}20%{opacity:1}60%{opacity:.9;transform:scale(1.06) rotate(18deg)}100%{opacity:0;transform:scale(1.22) rotate(34deg)}}
   @media (max-width:1080px){.status-grid,.command-grid{grid-template-columns:1fr}.hero{grid-template-columns:1fr}.hero-phase{justify-items:start}.reserve-grid{grid-template-columns:repeat(5,minmax(52px,1fr))}}
-  @media (max-width:900px){.page{padding:12px}.board{grid-template-columns:repeat(5,minmax(92px,1fr))}.cell{min-height:188px}.control-map{grid-template-columns:1fr}.belt-banner{grid-template-columns:1fr}.belt-left,.belt-right{text-align:center}}"
+  @media (max-width:900px){.page{padding:12px}.board{grid-template-columns:repeat(5,minmax(92px,1fr))}.cell{min-height:188px}.control-map,.global-controls{grid-template-columns:1fr}.belt-banner{grid-template-columns:1fr}.belt-left,.belt-right{text-align:center}}"
 
 css : String =
   css_a ++

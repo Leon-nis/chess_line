@@ -17,6 +17,7 @@ O GitHub nao compila Bend neste repo. O site publicado vem do `dist/`, que e ger
 
 - White: `A` pawn rank 1, `Z` pawn rank 2, `S` bishop, `D` knight, `F` rook, `G` queen, `,` pass
 - Black: `Y` pawn rank 8, `M` pawn rank 7, `U` bishop, `I` knight, `O` rook, `P` queen, `.` pass
+- A interface tambem oferece botoes clicaveis para todas as selecoes, `Enter` e `R`
 - `Enter`: confirma o turno
 - `R`: reinicia a partida
 
@@ -24,7 +25,7 @@ Especiais atuais:
 
 - Pawn: `Z/M` tentam invocar o peao avancado em `2/7`; se a casa estiver ocupada, caem para `1/8`
 - Bishop: em confronto, propaga dano por pecas inimigas iguais conectadas na direcao do avanco
-- Knight: se houver duas pecas iguais em espacamento regular terminando em `king/queen`, acerta os tres alvos; se acabou de avancar, esse especial conta so uma vez na rodada
+- Knight: em qualquer confronto, pode trocar o golpe normal por um combo em tres alvos com espacamento igual no sentido do avanco; o padrao canonico do spec e `X .. X .. king/queen`, e a implementacao atual tambem aceita `queen` na frente ou no meio em combinacoes equivalentes
 
 ## Build local
 
